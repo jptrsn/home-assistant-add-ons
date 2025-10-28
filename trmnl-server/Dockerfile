@@ -18,11 +18,12 @@ RUN apk add --no-cache \
     php84-curl \
     php84-zip \
     php84-gd \
-    php84-imagick \
     php84-dom \
     php84-xmlreader \
     php84-xmlwriter \
     php84-simplexml \
+    php84-pecl-imagick \
+    imagemagick \
     composer \
     nginx \
     nodejs \
