@@ -12,7 +12,8 @@ arch:
 startup: "services"
 boot: "auto"
 init: false
-privileged: true
+privileged:
+  - SYS_ADMIN
 full_access: true
 map:
   - media:rw
