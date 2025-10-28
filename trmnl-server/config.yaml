@@ -2,7 +2,7 @@ name: TRMNL Server
 version: "0.1.0"
 slug: trmnl-server
 description: Self-hosted TRMNL display server for e-ink devices
-url: https://github.com/jptrsn/home-assistant-add-ons
+url: https://github.com/jptrsn/home-assistant-add-ons/trmnl-server
 arch:
   - aarch64
   - amd64
