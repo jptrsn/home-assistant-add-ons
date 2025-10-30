@@ -1,0 +1,2 @@
+#!/command/execlineb -P
+/usr/bin/bash /etc/s6-overlay/scripts/init-db.sh

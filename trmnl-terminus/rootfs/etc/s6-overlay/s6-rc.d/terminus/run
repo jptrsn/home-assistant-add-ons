@@ -1,0 +1,48 @@
+#!/usr/bin/bash
+# ==============================================================================
+# Start Terminus application
+# ==============================================================================
+
+app_secret=$(cat /data/app_secret)
+pg_password=$(cat /data/pg_password)
+pg_user="terminus"
+pg_database="terminus"
+
+# Export environment variables
+export APP_SECRET="${app_secret}"
+export DATABASE_URL="postgres://${pg_user}:${pg_password}@localhost:5432/${pg_database}"
+export BUNDLE_PATH="/usr/local/bundle"
+export GEM_HOME="/usr/local/bundle"
+export HANAMI_PORT=2300
+export API_URI="http://homeassistant.local:8123"
+export RACK_ENV="production"
+export HANAMI_ENV="production"
+export HANAMI_SERVE_ASSETS="true"
+export HOME="/home/app"
+
+echo "[terminus] Starting Terminus application..."
+echo "[terminus] DATABASE_URL: postgres://${pg_user}:****@localhost:5432/${pg_database}"
+
+cd /app
+
+# Fix git ownership issue (as root before switching user)
+git config --global --add safe.directory /app
+
+# Run migrations and compile assets as app user
+echo "[terminus] Compiling assets..."
+s6-setuidgid app bundle exec hanami assets compile
+
+echo "[terminus] Running database migrations..."
+s6-setuidgid app bundle exec hanami db migrate
+
+# Start background pollers as app user
+echo "[terminus] Starting background pollers..."
+for poller in firmware screen model; do
+    if [ -f "bin/pollers/${poller}" ]; then
+        s6-setuidgid app bin/pollers/${poller} &
+    fi
+done
+
+# Start Puma as app user
+echo "[terminus] Starting Puma web server..."
+exec s6-setuidgid app bundle exec puma --config ./config/puma.rb

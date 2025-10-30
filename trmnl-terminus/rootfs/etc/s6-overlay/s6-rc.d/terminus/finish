@@ -1,0 +1,3 @@
+#!/usr/bin/bash
+
+echo "[terminus] Service exited with code $1"

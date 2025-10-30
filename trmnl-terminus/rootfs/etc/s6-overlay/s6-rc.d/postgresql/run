@@ -1,0 +1,11 @@
+#!/usr/bin/bash
+# ==============================================================================
+# Start PostgreSQL
+# ==============================================================================
+
+postgres_data="/data/postgres"
+
+echo "[postgresql] Starting PostgreSQL..."
+
+# Run PostgreSQL as postgres user
+exec s6-setuidgid postgres /usr/lib/postgresql/18/bin/postgres -D "${postgres_data}"
