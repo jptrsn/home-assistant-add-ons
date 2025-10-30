@@ -1,0 +1,14 @@
+name: "TRMNL Terminus"
+description: "Self-hosted TRMNL device server"
+version: "0.0.16"
+slug: "trmnl-terminus"
+init: false
+arch:
+  - aarch64
+  - amd64
+  - armv7
+startup: application
+boot: auto
+ingress: true
+ingress_port: 2300
+panel_icon: mdi:monitor-dashboard
